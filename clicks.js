@@ -9,6 +9,15 @@ angular.module('ClickBait')
         {btn: 'blue'},
         {btn: 'red'}
     ];
+
+    this.dispatch = function(eventName, eventDetails){
+        if (eventName === 'buttonClicked'){
+            this.clicks = this.clicks.concat([eventDetails])
+        }
+        else {
+            throw new Error('Even event was fired that the store cannot deal with');
+        }
+    };
 });
 
 angular.module('ClickBait')
@@ -59,7 +68,7 @@ angular.module('ClickBait')
 });
 
 angular.module('ClickBait')
-.directive('redButton', function(){
+.directive('redButton', function(Store){
     return {
         scope: {
             click: '='
@@ -67,12 +76,17 @@ angular.module('ClickBait')
         restrict: 'E',
         replace: true,
         template: '' +
-        '<button style="margin: 5px; background: #ff6666;">Click Me!</button>'
+        '<button ng-click="dispatchClickEventToStore()" style="margin: 5px; background: #ff6666;">Click Me!</button>',
+        link: function(scope){
+            scope.dispatchClickEventToStore = function(){
+                Store.dispatch('buttonClicked', {btn: 'red' })
+            };
+        }
     };
 });
 
 angular.module('ClickBait')
-.directive('blueButton', function(){
+.directive('blueButton', function(Store){
     return {
         scope: {
             click: '='
@@ -80,6 +94,11 @@ angular.module('ClickBait')
         restrict: 'E',
         replace: true,
         template: '' +
-        '<button style="margin: 5px; background: #668cff;">Click Me!</button>'
+        '<button ng-click="dispatchClickEventToStore()" style="margin: 5px; background: #668cff;">Click Me!</button>',
+        link: function(scope){
+            scope.dispatchClickEventToStore = function(){
+                Store.dispatch('buttonClicked', {btn: 'blue' })
+            };
+        }
     };
 });

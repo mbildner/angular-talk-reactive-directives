@@ -261,3 +261,6 @@ Let's wire it up!
 We'll use a super basic Flux pattern implementation to make our application record our clicks and show them to us.
 
 First, let's make a directive to programatically wire data from our code into our view
+Second, let's make our view elements tell the store that state needs to change
+ - note, the view elements cannot change state themselves, all they can do is tell the Store that something happened, and the Store will take responsibility for reconciling events and state
+
