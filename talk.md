@@ -260,3 +260,4 @@ Let's wire it up!
 
 We'll use a super basic Flux pattern implementation to make our application record our clicks and show them to us.
 
+First, let's make a directive to programatically wire data from our code into our view

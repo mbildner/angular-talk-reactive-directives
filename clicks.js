@@ -1,6 +1,28 @@
 angular.module('ClickBait', []);
 
 angular.module('ClickBait')
+.service('Store', function(){
+    this.user = 'Moshe';
+    this.clicks = [
+        {btn: 'red'},
+        {btn: 'red'},
+        {btn: 'blue'},
+        {btn: 'red'}
+    ];
+});
+
+angular.module('ClickBait')
+.directive('applicationRoot', function(Store){
+    return {
+        template: '<click-bait clicks="clicks" user="user"></click-bait>',
+        link: function(scope){
+            scope.user = Store.user;
+            scope.clicks = Store.clicks;
+        }
+    };
+});
+
+angular.module('ClickBait')
 .directive('clickBait', function(){
     return {
         scope: {
