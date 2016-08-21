@@ -23,10 +23,10 @@ angular.module('ClickBait')
 angular.module('ClickBait')
 .directive('applicationRoot', function(Store){
     return {
-        template: '<click-bait clicks="clicks" user="user"></click-bait>',
+        template: '<click-bait clicks="clicks()" user="user()"></click-bait>',
         link: function(scope){
-            scope.user = Store.user;
-            scope.clicks = Store.clicks;
+            scope.user =   function(){ return Store.user; };
+            scope.clicks = function(){ return Store.clicks; };
         }
     };
 });

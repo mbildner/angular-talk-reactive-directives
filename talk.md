@@ -264,3 +264,57 @@ First, let's make a directive to programatically wire data from our code into ou
 Second, let's make our view elements tell the store that state needs to change
  - note, the view elements cannot change state themselves, all they can do is tell the Store that something happened, and the Store will take responsibility for reconciling events and state
 
+Great, except it doesn't work.
+
+Why not?
+
+Angular is watching a reference to the original array of clicks. If we were to push our new clicks in, instead of concatenating them, angular would be fine.
+But that's brittle. It's also ugly, but it means that we would never be able to update our application's state with fresh objects.
+
+Let's make it work!
+
+Why does it work?
+// worth talking about scope watches in ng-bind?
+
+By wrapping our data accesses in method calls, we've instructed angular to compare what this function returns to whatever it returned last time.
+This is the secret sauce to making one way data flow work in Angular. All the Angular data shenanigans are contained in this thin wrapper between the angular world and the not-necessarily-angular world of data.
+
+Now we have a dynamic application. It obeys the Rule Of One Blob, and it can actually manage user interaction.
+
+Let's make a slightly more complicated TODO list.
+
+Angular Problem #3: Managing Inputs
+-----------------------------------
+
+Angular provides the ngModel tool to manage various inputs, and they are awful.
+
+ngModel is the kind of thing that seems amazing at first, but quickly becomes a nightmare when you want control of your application.
+
+It is built on the assumption that you want to use inherited scopes and scope watchers.
+
+Since you don't hate yourself, you no longer use those.
+
+Now What?
+---------
+
+`ng-model-options="{getterSetter: true}"`
+
+Angular provides an interface for directives to manage their ngModel slightly differently:
+
+This exposes one method on the scope with two signatures:
+
+```
+get modelMethod(): Object?
+set modelMethod(String): Void
+```
+
+1. When Angular wants to render the input, it will call our getterSetter method with no argument, and render the returned value inside the input
+1. When the user changes the input value, it will call our getterSetter method with the input's proposed new value as its single argument, and subsequently try to render the input by using the previous step
+
+This is the hook we need!
+
+The getter will move state from props into the input view
+The setter will take inputs and dispatch them into our state management system (in this case the store).
+The Store will be responsible for deciding whether the system state changes,
+the RootElement will re-render with our entire state tree, and we don't have to think about anything else.
+
