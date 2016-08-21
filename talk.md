@@ -110,35 +110,164 @@ Let's do this same thing with directives in Angular:
 
 goal: make directives just a weird way of writing a function invocation that maps properties to strings, nulls, and other directives
 
+Let's take the current React syntax as our inspiration, and try to make our directives work as close as possible to that API.
+
+Basic Structure
+---------------
+
+In Angular, we build directives with a `provider` function, which builds and returns a directive definition object:
+
+
+```JavaScript
+
+myModule.directive('toolBar', function(){
+    var directiveDefinition = {};
+    return directiveDefinition;
+});
+
+```
+
+We'll be making ours in-line, which is extremely common in Angular.
+Remaking the nav bar we made in React above, we get:
+
+```JavaScript
+
+myModule.directive('toolBar', function(){
+    return {
+        scope: {
+            linkToHome: '<',
+            linkToEmail: '<',
+            linkToCalendar: '<'
+        },
+        restrict: 'E',
+        replace: true,
+        template: '' +
+            '<nav>' +
+            '    <a href={props.linkToHome}>Home</a>' +
+            '    <a href={props.linkToEmail}>Email</a>' +
+            '    <a href={props.linkToCalendar}>Calendar</a>' +
+            '</nav>'
+    };
+});
+```
+
+Unfortunately, there's going to be a good deal of repeated boilerplate here.
+We can *easily* abstract most of it, but for the sake of clarity we'll do everything explicitly here:
+
+Our directive has:
+
+### restrict: 'E'
+
+Every piece of our application is going to enter the page through the directive tree.
+`restrict: 'E'` declares that this directive will only be picked up when it's an element on the page.
+
+This is **critical** to avoid a collision where an attribute shares the same name as a directive (which will happen all the time in this pattern).
+
+### scope: { linkToHome: '<', linkToEmail: '<', linkToCalendar: '<' }
+
+This declares that our scope is private, and not a descendant of its parent element's scope.
+Each key that we *do* want to be read from our parent is listed here, with the one way binding syntax.
+Note, old school angular would use:
+
+```JavaScript
+//...
+scope: {
+    linkToHome: '=',
+    linkToEmail: '=',
+    linkToCalendar: '='
+}
+```
+
+Which would have established two-way bindings. This would work for our use case, but would introduce unnecessary overhead.
+More importantly, we're swearing never to change state from inside our directives, think of this as React's `{interpolation}` syntax.
+
+The Angular API should have made this the default. It's a weakness of the framework that they didn't.
+
+This is important to avoid accidentally using data that was not intended for this directive.
+In React terms, not using this would be the same as every component getting all its parents' data in `this.props`, which would be awful.
+
+### replace: true
+
+This says to replace the custom angular directive name with whatever is inside it.
+This is useful to avoid weird styling jank, especially if you're using something like bootstrap, which is built assuming a certain known set of HTML tags.
+
+It's the difference between our getting:
+
+```HTML
+
+<nav-bar>
+    <nav>
+        <a href="home.com">Home</a>
+        <a href="home.com/email">Email</a>
+        <a href="home.com/calendar">Calendar</a>
+    </nav>
+</nav-bar>
+
+```
+
+and:
+
+```HTML
+<nav>
+    <a href="home.com">Home</a>
+    <a href="home.com/email">Email</a>
+    <a href="home.com/calendar">Calendar</a>
+</nav>
+```
+
+Relatively minor, but good hygiene.
+
+### template:
+
+This is probably the most self explanatory part:
+
+Provide a string describing our html, with `{{ }}` surrounding the values on scope you want interpolated.
+
+This is the minimum needed for a safe clean Reactive Directive
+==============================================================
+
+Our directive usage now looks *a lot* like our React component:
+
+React:
+```HTML
+<ToolBar linkToHome="..." linkToEmail="..." linkToCalendar="..." />
+```
+
+Angular:
+```HTML
+<tool-bar link-to-home="..." link-to-email="..." link-to-calendar="..."></tool-bar>
+```
+
+The only two differences are:
+
+1. Since we're using `<` bindings in our directive definitions, the values of our attributes will be considered expressions in our code
+    - this means that any literal value needs to be indicated:
+        - `<tool-bar link-to-home="'this is a literal string'"></tool-bar>`
+1. angular *loves* dash-casing things. It maps dash-cased things in markup into camelCase things in code.
+    - Because it hates you.
+1. you need closing tags in angular
+    - I'm genuinely not sure why, you are not supposed to.
+    - I think it's a weakness in the compiler?
+    - maybe someone in the audience knows and can tell me after?
+
+
 State in Directives
 -------------------
 
 Out of the box, Angular provides you 5 different ways for directives to receive state, because it hates you:
 
-1. Inherited Scope
 1. Scope values (through directive attributes)
+1. Inherited Scope
 1. Services/Factories/Providers
 1. Events (why???????)
 1. scope watches
 
 ### Which one should we use?
 
-Let's propose that we straight up copy the React API:
+We already decided to clone the React API, which means we're going with attributes, and that all other sources of state are out:
 
-In React it looks like this:
-```HTML
-<UserIcon name="Moshe" avatarUrl="avatar.com/moshe" />
-```
-
-Adjusting for Angular's obsession with dash-casing it would look like this:
-```HTML
-<user-icon name="Moshe" avatar-url="avatar.com/moshe" ></user-icon>
-```
-
-If we're using this API, then it means we're going with attributes and all other sources of state are out:
-
-1. Inherited Scope
-1. ~~Scope values (through directive attributes)~~
+1. Scope values (through directive attributes)
+1. ~~Inherited Scope~~
 1. ~~Services/Factories/Providers~~
 1. ~~Events (why???)~~
 1. ~~scope watches~~
@@ -317,4 +446,9 @@ The getter will move state from props into the input view
 The setter will take inputs and dispatch them into our state management system (in this case the store).
 The Store will be responsible for deciding whether the system state changes,
 the RootElement will re-render with our entire state tree, and we don't have to think about anything else.
+
+
+
+That's It!
+==========
 
