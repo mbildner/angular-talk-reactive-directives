@@ -448,7 +448,59 @@ The Store will be responsible for deciding whether the system state changes,
 the RootElement will re-render with our entire state tree, and we don't have to think about anything else.
 
 
+Let's Talk About Testing:
+=========================
 
-That's It!
-==========
+One big advantage of this pattern is that since your directives are now so simple, they are simple to test.
+
+Reactive Directives are responsible for:
+1. rendering properties into html
+1. dispatching events when they receive user input
+
+
+Rendering:
+
+```JavaScript
+describe('task', function(){
+    it('shows the task title in an li', function(){
+        var template = '<task task="{title: \'Buy More Milk!\'}"></task>';
+        var element = $compile(template)($rootScope)[0];
+
+        // needed for rendering tests
+        $rootScope.$digest();
+
+        expect(element.textContent.trim()).toBe('Buy More Milk!');
+    });
+});
+```
+
+Dispatching:
+
+```JavaScript
+describe('addTaskButton', function(){
+    var button;
+
+    beforeEach(function(){
+        spyOn(Store, 'dispatch');
+        var template = '<add-task-button><add-task-button>';
+        element = $compile(template)($rootScope)[0];
+    });
+
+    it('dispatches an addTodoButtonClicked event when clicked', function(){
+        element.click();
+
+        expect(Store.dispatch)
+            .toHaveBeenCalledWith('addTodoButtonClicked');
+    });
+});
+```
+
+Like most things in this talk, there's a good deal of irritating boilerplate.
+But at it's root there is *very* little work being done here.
+This is the way we want things.
+
+Our UI layer should only be some very easy to understand glue between  our HTML and our actual application logic code.
+You already know how to test regular JavaScript. The part that gives everyone heartache is testing that touches the DOM and testing that flows through Angular magic.
+Now you've segregated those two pains into a very small surface area.
+Make a directive, test that it renders, test that it knows how to tell your code that something interacted with it, and then dive back into real code again.
 
