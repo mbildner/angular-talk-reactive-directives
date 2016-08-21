@@ -1,6 +1,11 @@
 angular.module('TodoToday', []);
 
 angular.module('TodoToday')
+.service('DirectiveDefinitionService', function(){
+
+});
+
+angular.module('TodoToday')
 .service('Store', function(){
     this.user = 'Moshe';
     this.todoTasks = [];
@@ -23,8 +28,8 @@ angular.module('TodoToday')
 });
 
 angular.module('TodoToday')
-.directive('applicationRoot', function(Store){
-    return {
+.directive('applicationRoot', function(Store, DirectiveDefinitionService){
+    return DirectiveDefinitionService.applicationRoot = {
         template: '<todo-today todo-tasks="todoTasks()" user="user()" new-task-title="newTaskTitle()""></todo-today>',
         link: function(scope){
             scope.user =   function(){ return Store.user; };
@@ -35,8 +40,8 @@ angular.module('TodoToday')
 });
 
 angular.module('TodoToday')
-.directive('todoToday', function(){
-    return {
+.directive('todoToday', function(DirectiveDefinitionService){
+    return DirectiveDefinitionService.todoToday || {
         scope: {
             todoTasks: '=',
             user: '=',
@@ -54,11 +59,12 @@ angular.module('TodoToday')
             '</ul>'                                                         +
          '</div>',
     };
+
 });
 
 angular.module('TodoToday')
-.directive('task', function(){
-    return {
+.directive('task', function(DirectiveDefinitionService){
+    return DirectiveDefinitionService.task || {
         scope: {
             task: '='
         },
@@ -72,8 +78,8 @@ angular.module('TodoToday')
 });
 
 angular.module('TodoToday')
-.directive('addTaskButton', function(Store){
-    return {
+.directive('addTaskButton', function(Store, DirectiveDefinitionService){
+    return DirectiveDefinitionService.addTaskButton || {
         scope: {
             task: '='
         },
@@ -90,8 +96,8 @@ angular.module('TodoToday')
 });
 
 angular.module('TodoToday')
-.directive('addTaskInput', function(Store){
-    return {
+.directive('addTaskInput', function(Store, DirectiveDefinitionService){
+    return DirectiveDefinitionService.addTaskInput || {
         restrict: 'E',
         scope: { newTaskTitle: '=' },
         replace: true,
@@ -111,8 +117,8 @@ angular.module('TodoToday')
 });
 
 angular.module('TodoToday')
-.directive('blueButton', function(Store){
-    return {
+.directive('blueButton', function(Store, DirectiveDefinitionService){
+    return DirectiveDefinitionService.blueButton || {
         scope: {},
         restrict: 'E',
         replace: true,

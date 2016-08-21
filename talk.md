@@ -504,3 +504,19 @@ You already know how to test regular JavaScript. The part that gives everyone he
 Now you've segregated those two pains into a very small surface area.
 Make a directive, test that it renders, test that it knows how to tell your code that something interacted with it, and then dive back into real code again.
 
+Shallow Rendering in Angular
+----------------------------
+
+Let's say you have a complicated application with a lot of deeply nested directives.
+Testing it in this way would require building a correctly shaped application state blob and then rendering off that.
+
+That sucks.
+
+Let's make use of "shallow rendering", by stubbing out all the descendant directives. Then we can make sure they get invoked, and not worry about how they actually work.
+
+
+
+
+
+That's It!
+==========
