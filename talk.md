@@ -515,8 +515,25 @@ That sucks.
 Let's make use of "shallow rendering", by stubbing out all the descendant directives. Then we can make sure they get invoked, and not worry about how they actually work.
 
 
-
-
-
 That's It!
 ==========
+
+
+Recap:
+======
+
+1. Your application gets one root element
+    - application-root reads data out of your store
+    - application-root renders all descendants with necessary properties
+
+1. Every sub-view gets its own directive
+1. directives only render the data they get from their parent
+1. root directive wraps template access for stubbing
+1. ng-if for null nodes
+1. ng-repeat for collections
+1. ng-model-options={getterSetter:true} for inputs
+
+There you have it:
+
+AngularJS: "Not That Bad" ™
+===========================

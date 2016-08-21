@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a95550ae-366e-4853-9c32-ace988d6ac09" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/karma.conf.js" afterPath="$PROJECT_DIR$/karma.conf.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/talk.md" afterPath="$PROJECT_DIR$/talk.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todo.js" afterPath="$PROJECT_DIR$/todo.js" />
     </list>
     <ignored path="angular-talk-repo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,16 +25,16 @@
     <splitter split-orientation="horizontal" split-proportion="0.3832853">
       <split-first>
         <leaf>
-          <file leaf-file-name="talk.md" pinned="false" current-in-tab="false">
+          <file leaf-file-name="talk.md" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/talk.md">
               <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
                 <state split_layout="FIRST">
-                  <first_editor relative-caret-position="76">
-                    <caret line="490" column="0" selection-start-line="490" selection-start-column="0" selection-end-line="490" selection-end-column="0" />
+                  <first_editor relative-caret-position="646">
+                    <caret line="538" column="27" selection-start-line="538" selection-start-column="27" selection-end-line="538" selection-end-column="27" />
                     <folding>
-                      <marker date="1471799754000" expanded="true" signature="6171:6331" ph="..." />
-                      <marker date="1471799754000" expanded="true" signature="6181:6320" ph="..." />
-                      <marker date="1471799754000" expanded="true" signature="6357:6480" ph="..." />
+                      <marker date="1471802081000" expanded="true" signature="6171:6331" ph="..." />
+                      <marker date="1471802081000" expanded="true" signature="6181:6320" ph="..." />
+                      <marker date="1471802081000" expanded="true" signature="6357:6480" ph="..." />
                     </folding>
                   </first_editor>
                   <second_editor />
@@ -65,7 +62,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="todo.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="todo.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/todo.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="342">
@@ -123,10 +120,10 @@
         <option value="$PROJECT_DIR$/clicks.html" />
         <option value="$PROJECT_DIR$/clicks.js" />
         <option value="$PROJECT_DIR$/todo.html" />
-        <option value="$PROJECT_DIR$/talk.md" />
         <option value="$PROJECT_DIR$/todo.js" />
         <option value="$PROJECT_DIR$/example_test.js" />
         <option value="$PROJECT_DIR$/example_shallow_rendering_test.js" />
+        <option value="$PROJECT_DIR$/talk.md" />
       </list>
     </option>
   </component>
@@ -463,21 +460,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/talk.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="76">
-            <caret line="490" column="0" selection-start-line="490" selection-start-column="0" selection-end-line="490" selection-end-column="0" />
-            <folding>
-              <marker date="1471799754000" expanded="true" signature="6171:6331" ph="..." />
-              <marker date="1471799754000" expanded="true" signature="6181:6320" ph="..." />
-              <marker date="1471799754000" expanded="true" signature="6357:6480" ph="..." />
-            </folding>
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/todo.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
@@ -499,6 +481,21 @@
         <state relative-caret-position="-82">
           <caret line="14" column="48" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/talk.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="646">
+            <caret line="538" column="27" selection-start-line="538" selection-start-column="27" selection-end-line="538" selection-end-column="27" />
+            <folding>
+              <marker date="1471802081000" expanded="true" signature="6171:6331" ph="..." />
+              <marker date="1471802081000" expanded="true" signature="6181:6320" ph="..." />
+              <marker date="1471802081000" expanded="true" signature="6357:6480" ph="..." />
+            </folding>
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
